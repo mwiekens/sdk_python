@@ -61,5 +61,4 @@ class AnchorObjectAdapter(converter.JsonAdapter):
         except AttributeError:
             pass
 
-        return None
-        # raise BunqException(cls.__ERROR_MODEL_NOT_FOUND.format(class_name))
+        raise BunqException(cls.__ERROR_MODEL_NOT_FOUND.format(class_name))
