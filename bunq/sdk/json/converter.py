@@ -114,7 +114,10 @@ class JsonAdapter(Generic[T]):
         if cls._is_deserialized(cls_target, obj_raw):
             return obj_raw
         elif type(obj_raw) == dict:
-            return cls._deserialize_dict(cls_target, obj_raw)
+            try:
+                return cls._deserialize_dict(cls_target, obj_raw)
+            except BunqException:
+                pass
         else:
             return cls_target(obj_raw)
 
@@ -162,6 +165,7 @@ class JsonAdapter(Generic[T]):
             if value_specs is not None:
                 dict_deserialized[value_specs.name] = cls._deserialize_value(value_specs.types, dict_[key])
             else:
+                dict_deserialized[key] = dict_[key]
                 cls._warn_key_unknown(cls_context, key)
 
         return dict_deserialized
